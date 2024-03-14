@@ -1,0 +1,19 @@
+
+#Dirs
+node_modules/
+##Build
+client/dist*
+server/public/views/app
+.env*
+
+#OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+#Exceptions
+!.env*example*
