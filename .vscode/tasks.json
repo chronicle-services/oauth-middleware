@@ -6,10 +6,11 @@
         {
             "label": "deploy",
             "type": "shell",
-            "command": "${workspaceFolder}/build/scripts/deploy.sh",
+            "command": "./build/scripts/deploy.sh",
             "args": [
                 "${input:target}",
-                "${input:environment}"
+                "${input:environment}",
+                "${input:vite}"
             ],
             "problemMatcher": []
         }
@@ -18,7 +19,7 @@
         {
             "id": "target",
             "type": "pickString",
-            "options": ["client","clientbuild","server","all"],
+            "options": ["all","client","server"],
             "description": "target component to deploy"
         },
         {
@@ -26,6 +27,12 @@
             "type": "pickString",
             "options": ["local","development","production"],
             "description": "environment to deploy the target in"
+        },
+        {
+            "id": "vite",
+            "type": "pickString",
+            "options": ["-v","-no-vite"],
+            "description": "add -v to run with vite"
         }
     ]
 }
