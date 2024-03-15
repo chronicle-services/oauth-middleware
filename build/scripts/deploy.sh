@@ -1,25 +1,26 @@
-TARGETS=("all" "client" "client_build" "server")
+TARGETS=("all" "client" "server")
 ENVIRONMENTS=("local" "development" "production")
 
 TARGET=$1
 ENVIRONMENT=$2
+VITE=$3
 
 #functions
 function validate_target(){
     for t in ${TARGETS[@]}
     do
-        if [ $TARGET = $t ]; then
+        if [ $TARGET=$t ]; then
             echo true
             return 0
         fi
     done
-    return false
+    echo false
 }
 
 function validate_environment(){
     for e in ${ENVIRONMENTS[@]}
     do
-        if [ $ENVIRONMENT = $e ]; then
+        if [ $ENVIRONMENT=$e ]; then
             echo true
             return 0
         fi
@@ -42,27 +43,36 @@ function build_dotenvx_cmd(){
 }
 
 function deploy_client(){
-    cmd="$(build_dotenvx_cmd) npm run dev --prefix client/"
-    eval $cmd
-}
+    if [ ! -z "$VITE" ] && [ ${VITE}="-v" ]; then
+        cmd="$(build_dotenvx_cmd) npm run dev --prefix client/"
+        eval $cmd
+    else
+        cmd="$(build_dotenvx_cmd) npm run build --prefix client/ && "
+        cmd+="rm -rf server/public/views/app && "
+        cmd+="mkdir -p server/public/views/app && "
+        cmd+="cp -R client/dist/. server/public/views/app"
 
-function deploy_client_build(){
-    cmd="$(build_dotenvx_cmd) npm run build --prefix client/ && "
-    cmd+="rm -rf server/public/views/app && "
-    cmd+="mkdir -p server/public/views/app && "
-    cmd+="cp -R client/dist/. server/public/views/app"
-
-    eval $cmd
+        eval $cmd
+    fi
 }
 
 function deploy_server(){
-    cmd="$(build_dotenvx_cmd) npm run start --prefix server/ -- -v"
+    cmd="$(build_dotenvx_cmd) npm run start --prefix server/"
+
+    if [ $VITE="-v" ]; then
+        cmd+=" -- -vite"
+    fi
 
     eval $cmd
 }
 
 function deploy_all(){
-    deploy_client_build
+    cmd="$(build_dotenvx_cmd) npm run build --prefix client/ && "
+    cmd+="rm -rf server/public/views/app && "
+    cmd+="mkdir -p server/public/views/app && "
+    cmd+="cp -R client/dist/. server/public/views/app"
+    eval $cmd
+
     eval "pm2 start '$(build_dotenvx_cmd) npm run start --prefix server/'"
 }
 
