@@ -62,7 +62,7 @@ async function getToken(code){
             client_secret: config.client.secret,
             code: code, 
             grant_type: "authorization_code",
-            redirect_uri: "http://localhost:3000/"
+            redirect_uri: config.redirectUrl
         })
     };
 
