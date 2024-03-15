@@ -1,7 +1,9 @@
 
 #Dirs
 node_modules/
-##Build
+foundry/
+
+#Build
 client/dist*
 server/public/views/app
 .env*
