@@ -1,0 +1,31 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "deploy",
+            "type": "shell",
+            "command": "${workspaceFolder}/build/scripts/deploy.sh",
+            "args": [
+                "${input:target}",
+                "${input:environment}"
+            ],
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "target",
+            "type": "pickString",
+            "options": ["client","clientbuild","server","all"],
+            "description": "target component to deploy"
+        },
+        {
+            "id": "environment",
+            "type": "pickString",
+            "options": ["local","development","production"],
+            "description": "environment to deploy the target in"
+        }
+    ]
+}

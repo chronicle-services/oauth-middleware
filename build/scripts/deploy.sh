@@ -43,7 +43,7 @@ function build_dotenvx_cmd(){
 
 function deploy_client(){
     cmd="$(build_dotenvx_cmd) npm run dev --prefix client/"
-    eval cmd
+    eval $cmd
 }
 
 function deploy_client_build(){
@@ -56,8 +56,7 @@ function deploy_client_build(){
 }
 
 function deploy_server(){
-    server_script="npm run start --prefix server/"
-    cmd="$(build_dotenvx_cmd) npm run start --prefix server/"
+    cmd="$(build_dotenvx_cmd) npm run start --prefix server/ -- -v"
 
     eval $cmd
 }
