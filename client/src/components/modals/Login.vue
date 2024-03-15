@@ -17,12 +17,9 @@ addEventListener("message", (event)=>{
 })
 
 function onClick(){
-    let url = "https://discord.com/oauth2/authorize?client_id=1206008430851129354&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&scope=guilds";
-    //url = "https://discord.com/oauth2/authorize?client_id=1206008430851129354&response_type=code&redirect_uri=127.0.0.1%3A3000&scope=guilds";
-    //url = "http:localhost:3000?code=blah";
-
+    let url = import.meta.env.VITE_AUTH_URL;
+    console.log(`url:${url}`);
     let authWindow = window.open(url, "popup", discordWindowsFeaturesString);
-
 }
 
 globalThis.oAuthCallback = function(){
